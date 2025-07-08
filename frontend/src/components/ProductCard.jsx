@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { images } from '../assets/assets';
+
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [selectedColors, setSelectedColors] = useState({});
@@ -20,7 +21,6 @@ export default function Products() {
 
         setProducts(fetchedProducts);
 
-        // Assign default color 'yellow' to each product using a safe ID
         const defaultColors = {};
         fetchedProducts.forEach((product, index) => {
           const id = product._id ?? `${product.name}-${index}`;
@@ -51,22 +51,21 @@ export default function Products() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f9f9f9] px-6 py-10 flex flex-col items-center">
+    <div className="min-h-screen bg-[#f9f9f9] px-4 py-10 flex flex-col items-center">
       <h1 className="text-3xl font-semibold text-center text-gray-800 mb-8">
         Product List
       </h1>
 
-      {/* Arrow Buttons beside scrollable list */}
       <div className="relative w-full max-w-7xl flex items-center">
         {/* Left Arrow */}
-        <button onClick={() => scroll('left')}>
-         <img src={images.left_Arrow} alt="Left Arrow" className="w-10 h-20" />
-               </button>
+        <button onClick={() => scroll('left')} className="hidden sm:block">
+          <img src={images.left_Arrow} alt="Left Arrow" className="w-10 h-20" />
+        </button>
 
-        {/* Scrollable Horizontal Product List */}
+        {/* Scrollable Product List */}
         <div
           ref={scrollRef}
-          className="flex overflow-x-auto space-x-6 px-10 scrollbar-hide w-full"
+          className="flex overflow-x-auto space-x-4 sm:space-x-6 px-1 sm:px-6 scrollbar-hide w-full snap-x snap-mandatory"
         >
           {products.map((product, index) => {
             const id = product._id ?? `${product.name}-${index}`;
@@ -75,7 +74,7 @@ export default function Products() {
             return (
               <div
                 key={id}
-                className="flex-none w-72 bg-white rounded-3xl shadow-md overflow-hidden transition hover:shadow-xl"
+                className="flex-none w-64 sm:w-72 snap-start bg-white rounded-3xl shadow-md overflow-hidden transition hover:shadow-xl"
               >
                 <div className="h-48 bg-gray-100 flex items-center justify-center p-4">
                   <img
@@ -99,7 +98,7 @@ export default function Products() {
                   </p>
                 </div>
 
-                {/* Gold Color Circles */}
+                {/* Color Selection */}
                 <div className="flex items-center gap-2 px-4 pb-4 pt-2">
                   {Object.entries(goldColors).map(([colorName, colorHex]) => (
                     <div
@@ -123,11 +122,11 @@ export default function Products() {
         </div>
 
         {/* Right Arrow */}
-       <button onClick={() => scroll('right')}>
-        <img src={images.right_Arrow} alt="Right Arrow" className="w-10 h-20" />
-      </button>
-
+        <button onClick={() => scroll('right')} className="hidden sm:block">
+          <img src={images.right_Arrow} alt="Right Arrow" className="w-10 h-20" />
+        </button>
       </div>
     </div>
   );
 }
+
